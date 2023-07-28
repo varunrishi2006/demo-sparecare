@@ -15,7 +15,7 @@ from plotly.subplots import make_subplots
 app = dash.Dash(
     __name__,
     meta_tags=[{"name": "viewport",
-                "content": "width=device-width, initial-scale=1"}],
+                "content": "width=device-width, initial-scale=1, maximum-scale=1.2, minimum-scale=0.5,"}],
 )
 server = app.server
 
@@ -132,52 +132,21 @@ def generate_control_card():
 app.layout = html.Div(
     id="app-container",
     children=[
-        html.Div(
+        # html.Div(
+        dbc.Row(
             [
-                html.Div(
+                # html.Div(
+                dbc.Col(
                     id="left-column",
                     className="pretty_container four columns",
                     children=[description_card(), generate_control_card()],
+                    xs=12, sm=12, md=6, lg=4, xl=4,
                     style={'border': '1px solid black'}
                 ),
                 # Right column
-                html.Div(
+                # html.Div(
+                dbc.Col(
                     [
-                        # html.Div(
-                        #     [
-                        #         html.Div(
-                        #             [html.H5(id="totrevtxt"), html.P("Total Revenue")],
-                        #             id="total_revenue",
-                        #             className="mini_container",
-                        #             style={'padding': '0px 10px', 'textAlign': 'center', 'fontWeight': 'bold',
-                        #                    'backgroundColor': 'lightgrey'}
-                        #         ),
-                        #         html.Div(
-                        #             [html.H5(id="totdisctxt"), html.P("Total Discounts")],
-                        #             id="total_discounts",
-                        #             className="mini_container",
-                        #             style={'padding': '0px 10px', 'textAlign': 'center', 'fontWeight': 'bold',
-                        #                    'backgroundColor': 'lightgrey'}
-                        #
-                        #         ),
-                        #         html.Div(
-                        #             [html.H5(id="precdisctxt"), html.P("Discount %")],
-                        #             id="per_discount",
-                        #             className="mini_container",
-                        #             style={'padding': '0px 10px', 'textAlign': 'center', 'fontWeight': 'bold',
-                        #                    'backgroundColor': 'lightgrey'}
-                        #         ),
-                        #         html.Div(
-                        #             [html.H5(id="revsourcetxt"), html.P("Best Revenue Source")],
-                        #             id="rev_source",
-                        #             className="mini_container",
-                        #             style={'padding': '0px 10px', 'textAlign': 'center', 'fontWeight': 'bold',
-                        #                    'backgroundColor': 'lightgrey'}
-                        #         ),
-                        #     ],
-                        #     id="info-container",
-                        #     className="row container-display",
-                        # ),
                         html.B("Top N Locations by Revenue"),
                         html.P(),
                         html.Div(
@@ -201,23 +170,29 @@ app.layout = html.Div(
                         ),
                     ],
                     id="right-column",
+                    xs=12, sm=12, md=6, lg=8, xl=8,
                     className="pretty_container eight columns",
                 ),
             ],
             className="row flex-display",
         ),
-        html.Div(
+        # html.Div(
+        dbc.Row(
             [
-                html.Div(
+                # html.Div(
+                dbc.Col(
                     [
                         dcc.Graph(id="trend-performance")
                     ],
+                    xs=12, sm=12, md=5, lg=5, xl=5,
                     className="pretty_container six columns"
                 ),
-                html.Div(
+                # html.Div(
+                dbc.Col(
                     [
                         dcc.Graph(id="revenue_contr_source")
                     ],
+                    xs=12, sm=12, md=5, lg=5, xl=5,
                     className="pretty_container six columns"
                 ),
             ],
@@ -309,11 +284,11 @@ def loc_analysis(dealer_code, location, loc_count):
     fig.update_layout(title="Revenue/Discount Analysis by Location",
                       title_x=0.5,
                       xaxis_title="Locations",
-                      height=550,
+                      # height=550,
                       yaxis_title="Total Revenue & Discounts by each Location",
                       yaxis2_title="Discount as perc of Total Revenue",
                       showlegend=False,
-                      font=dict(family="Arial", size=15, color="black"),
+                      font=dict(family="Arial", size=12, color="black"),
                       plot_bgcolor='rgba(0,0,0,0)',
                       template='ggplot2',
                       yaxis2=dict(
@@ -399,11 +374,11 @@ def loc_analysis(dealer_code, location, loc_count, clickData):
 
     fig.update_layout(title_x=0.5,
                       xaxis_title="Locations",
-                      height=550,
+                      # height=550,
                       yaxis_title="Total Revenue & Discounts by each Location",
                       yaxis2_title="Discount as perc of Total Revenue",
                       showlegend=False,
-                      font=dict(family="Arial", size=15, color="black"),
+                      font=dict(family="Arial", size=12, color="black"),
                       plot_bgcolor='rgba(0,0,0,0)',
                       template='ggplot2',
                       yaxis2=dict(
@@ -482,16 +457,15 @@ def update_rev_sources(dealer_code, location, clickData, clickData1):
 
     fig.update_layout(title_x=0.5,
                       xaxis_title="Discount Category",
-                      xaxis=dict(
-                          # type='linear',
-                          # range=[1, 10],
-                          ticksuffix='%'),
-                      height=550,
+                      xaxis=dict(ticksuffix='%'),
+                      # height=550,
                       yaxis_title="Revenue Line",
                       showlegend=False,
-                      font=dict(family="Arial", size=15, color="black"),
+                      font=dict(family="Arial", size=12, color="black"),
                       plot_bgcolor='rgba(0,0,0,0)',
                       template='ggplot2',
+                      yaxis=dict(title='y-axis', visible=False, showticklabels=False),
+                      # yaxis2=dict(title='y-axis', visible=False, showticklabels=False),
                       )
 
     return fig
@@ -499,4 +473,4 @@ def update_rev_sources(dealer_code, location, clickData, clickData1):
 
 # Run the server
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    app.run_server(debug=True, port=8080)
