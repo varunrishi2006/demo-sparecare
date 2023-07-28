@@ -14,8 +14,9 @@ from plotly.subplots import make_subplots
 
 app = dash.Dash(
     __name__,
-    meta_tags=[{"name": "viewport",
-                "content": "width=device-width, initial-scale=1, maximum-scale=1.2, minimum-scale=0.5,"}],
+    # meta_tags=[{"name": "viewport",
+    #             "content": "width=device-width, initial-scale=1, maximum-scale=1.2, minimum-scale=0.5,",
+    #             }],
 )
 server = app.server
 
@@ -281,12 +282,12 @@ def loc_analysis(dealer_code, location, loc_count):
     fig.update_layout(barmode='stack')
 
     # Update the layout and show the figure
-    fig.update_layout(title="Revenue/Discount Analysis by Location",
+    fig.update_layout(title="Performance by Location",
                       title_x=0.5,
                       xaxis_title="Locations",
                       # height=550,
-                      yaxis_title="Total Revenue & Discounts by each Location",
-                      yaxis2_title="Discount as perc of Total Revenue",
+                      yaxis_title="Revenue vs Discount by Location",
+                      yaxis2_title="Discount(% of Revenue)",
                       showlegend=False,
                       font=dict(family="Arial", size=12, color="black"),
                       plot_bgcolor='rgba(0,0,0,0)',
@@ -368,15 +369,15 @@ def loc_analysis(dealer_code, location, loc_count, clickData):
 
     # Update the layout and show the figure
     if loc == "":
-        fig.update_layout(title="Revenue/Discount Analysis by Month across Locations")
+        fig.update_layout(title="Performance by Month across Locations")
     else:
-        fig.update_layout(title="Revenue/Discount Analysis by Month for Location " + loc)
+        fig.update_layout(title="Performance by Month for Location " + loc)
 
     fig.update_layout(title_x=0.5,
                       xaxis_title="Locations",
                       # height=550,
-                      yaxis_title="Total Revenue & Discounts by each Location",
-                      yaxis2_title="Discount as perc of Total Revenue",
+                      yaxis_title="Revenue vs. Discount by Location",
+                      yaxis2_title="Discount(% of Revenue)",
                       showlegend=False,
                       font=dict(family="Arial", size=12, color="black"),
                       plot_bgcolor='rgba(0,0,0,0)',
@@ -443,7 +444,7 @@ def update_rev_sources(dealer_code, location, clickData, clickData1):
         y=rows,
         color_continuous_scale="viridis",
         aspect="auto",
-        text_auto='auto'
+        text_auto='auto',
     )
 
     if loc == "" and selected_month == "":
